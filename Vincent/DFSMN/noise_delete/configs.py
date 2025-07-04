@@ -2,8 +2,8 @@
 降噪模組配置文件
 """
 
+# 默認模型參數
 DEFAULT_MODEL_CONFIG = {
-
     # DFSMN 模型結構參數
     'input_dim': 257,
     'hidden_dims': [512, 384, 256, 128],
@@ -25,22 +25,24 @@ DEFAULT_MODEL_CONFIG = {
     'num_filters': 4
 }
 
-
+# 音頻處理參數
 AUDIO_PROCESSING_CONFIG = {
-    
+    # STFT 參數
     'n_fft': 512,
     'hop_length': 256,
-    'win_length': None,  # n_fft if None
+    'win_length': None,  # 如果為None，使用n_fft
     'window_type': 'hann',
     
-    'low_freq_cutoff': 80,  # PROTECTED below this frequency
-    'high_freq_cutoff': 16000,
+    # 頻率保護參數
+    'low_freq_cutoff': 80,  # Hz，低於此頻率的內容會被保護
+    'high_freq_cutoff': 16000,  # Hz，高於此頻率的內容可能被過濾
     
-    'default_denoising_strength': 0.95,
-    'default_low_freq_preserve': 0.2,
+    # 降噪強度相關
+    'default_denoising_strength': 0.95,  # 默認降噪強度 (0.0-1.0)
+    'default_low_freq_preserve': 0.2,  # 默認低頻保留比例 (0.0-1.0)
     
-    
-    'noise_percentile': 10,  # approximating the ratio of noise
+    # 噪聲估計
+    'noise_percentile': 10,  # 噪聲估計的百分位數 (1-100)
     'spectral_gate_threshold': 2.0,  # 頻譜門限閾值
 }
 
@@ -52,7 +54,7 @@ REALTIME_CONFIG = {
     'fade_samples': 50,  # 淡變樣本數量
 }
 
-
+# 用戶界面預設值
 UI_PRESETS = {
     'voice': {
         'denoising_strength': 0.85,
@@ -78,22 +80,23 @@ UI_PRESETS = {
 
 # 文件處理參數
 FILE_PROCESSING = {
-    'supported_formats': ['.wav'],
-    'max_file_size': 100 * 1024 * 1024,
+    'supported_formats': ['.wav'],  # 當前僅支持WAV格式
+    'max_file_size': 100 * 1024 * 1024,  # 最大文件大小 (100MB)
     'min_duration': 0.1,  # 最小音頻長度 (秒)
-    'default_output_format': 'wav',
+    'default_output_format': 'wav'  # 默認輸出格式
 }
 
 # 日誌配置
 LOGGING_CONFIG = {
     'log_level': 'INFO',  # 日誌級別: DEBUG, INFO, WARNING, ERROR, CRITICAL
-    'log_file': 'noise_reducer.log',
-    'max_log_size': 1024 * 1024,
-    'backup_count': 3,
+    'log_file': 'noise_reducer.log',  # 日誌文件名
+    'max_log_size': 1024 * 1024,  # 最大日誌文件大小 (1MB)
+    'backup_count': 3,  # 備份文件數量
 }
 
+# 設備配置
 DEVICE_CONFIG = {
-    'use_cuda': True,
-    'device': None,
-    'precision': 'float32'
+    'use_cuda': True,  # 是否使用CUDA (如果可用)
+    'device': None,  # 如果為None，自動選擇 (cpu 或 cuda)
+    'precision': 'float32'  # 計算精度: float32, float16 (半精度，僅CUDA)
 }
